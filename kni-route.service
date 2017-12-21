@@ -1,0 +1,10 @@
+[Unit]
+Description=Service to add a route out kni interface
+ 
+[Service]
+ExecStart=/usr/sbin/route add default gw 169.254.127.126
+Restart=on-failure
+RestartSec=5
+ 
+[Install]
+WantedBy=sys-subsystem-net-devices-kni254.device

@@ -1,0 +1,25 @@
+#! /bin/bash
+
+combo_waninterface=/etc/128technology/combo_waninterface
+kni_dev=kni254
+gw=169.254.127.126
+
+if [ ! -e $combo_waninterface ]
+then
+        exit
+fi
+
+defroute=`ip route |grep "default via 169.254.127.126"`
+if [ ! -z "$defroute" ]
+then
+        exit
+fi
+
+dev_names=$(ip a s |grep qlen|awk '{print $2}'|sed 's/://g')
+for d_name in ${dev_names}
+do
+	if [ "$kni_dev" == "$d_name" ]
+	then
+			route add default gw $gw
+	fi
+done
